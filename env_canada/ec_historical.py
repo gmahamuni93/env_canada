@@ -165,7 +165,7 @@ async def get_historical_stations(
             STATIONS_URL.format(language[0]),
             params=params,
             headers={"User-Agent": USER_AGENT},
-            timeout=10,
+            timeout=30,
         )
         result = await response.read()
 
@@ -259,7 +259,7 @@ class ECHistorical:
                 WEATHER_URL.format(self.language[0]),
                 params=params,
                 headers={"User-Agent": USER_AGENT},
-                timeout=10,
+                timeout=30,
             )
             if self.format == "csv":
                 result = await response.text()

@@ -656,6 +656,7 @@ class ECWeather:
         # Update hourly forecasts
         for f in weather_tree.findall("./hourlyForecastGroup/hourlyForecast"):
             wind_speed_text = f.findtext("./wind/speed")
+            humidity_text = f.findtext("./humidex") or f.findtext("./humidity")
             self.hourly_forecasts.append(
                 {
                     "period": _parse_timestamp(f.attrib.get("dateTimeUTC")),
@@ -667,8 +668,11 @@ class ECWeather:
                     if wind_speed_text and wind_speed_text.isnumeric()
                     else 0,
                     "wind_direction": f.findtext("./wind/direction"),
+                    "uv_index": int(f.findtext("./uv/index") or 0),
+                    "humidity": int(humidity_text or 0),
                 }
             )
+                 
 
         # Update metadata at the end
         self.metadata.cache_returned_on_update = 0
